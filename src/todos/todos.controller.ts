@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'; //post permet de gerer le post vers un chemin specifique
+import { Body, Controller, Get, Param, Post, Patch } from '@nestjs/common'; //post permet de gerer le post vers un chemin specifique
+import { CreateTodoDto } from './dto/create-todo.dto';
 import { Todo } from './interfaces/todo.interface';
 import { TodosService } from './todos.service';
 
@@ -28,8 +29,14 @@ export class TodosController {
         return this.todoService.findAll(); // findall retourne toute les taches a effectuer
     } 
     @Post()
-    createTodo(@Body() newTodo){ // crer une nouvelle tache avec createTodo et récuperer le body de la requette
+    createTodo(@Body() newTodo: CreateTodoDto){ // crer une nouvelle tache avec createTodo et récuperer le body de la requette
         console.log('newTodo', newTodo);
         this.todoService.create(newTodo);
     }
+
+    @Patch(':id')
+    updateTodo(@Param('id') id: string, @Body() todo: CreateTodoDto){
+        return this.todoService.update(id, todo);
+    }
+
 }
