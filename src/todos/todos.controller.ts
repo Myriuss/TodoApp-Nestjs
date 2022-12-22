@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Patch } from '@nestjs/common'; //post permet de gerer le post vers un chemin specifique
+import { Body, Controller, Get, Param, Post, Patch, Delete } from '@nestjs/common'; //post permet de gerer le post vers un chemin specifique
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { Todo } from './interfaces/todo.interface';
 import { TodosService } from './todos.service';
@@ -34,9 +34,18 @@ export class TodosController {
         this.todoService.create(newTodo);
     }
 
+
+    /**
+     * avec param on indique quelle todo on veut modifier localhost:3..../2 par exemple
+     * apres on recupere le body
+     * et apres on a creer un service on lui a donner deux parametre id et todo
+     */
     @Patch(':id')
     updateTodo(@Param('id') id: string, @Body() todo: CreateTodoDto){
         return this.todoService.update(id, todo);
     }
-
+    @Delete(':id')
+    deleteTodo(@Param('id') id:string){
+        return this.todoService.delete(id);
+    }
 }
